@@ -38,83 +38,58 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // API Constants
 var axios_1 = require("axios");
-var APIBaseURL = "https://" + (process.env.DEVELOPMENT ? 'qa' : 'www') + ".bigparser.com/APIServices/api";
-var APIBaseURLv2 = "https://" + (process.env.DEVELOPMENT ? 'qa' : 'www') + ".bigparser.com/api/v2";
-var BigParserAPIv2 = axios_1.default.create({
-    baseURL: APIBaseURLv2
+var APIURL = "https://" + (process.env.BP_QA ? 'qa' : 'www') + ".bigparser.com/api/v2";
+var API = axios_1.default.create({
+    baseURL: APIURL,
+    headers: {
+        authId: process.env.BP_AUTH
+    }
 });
+function gridURL(action, gridId, viewId) {
+    return (viewId) ? "/grid/" + gridId + "/share/" + viewId + "/" + action : "/grid/" + gridId + "/" + action;
+}
 var BigParser;
 (function (BigParser) {
-    var authorized = false;
-    function loggedIn() {
-        return authorized;
-    }
-    BigParser.loggedIn = loggedIn;
-    function login() {
+    function search(queryObj, gridId, viewId) {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                if (process.env.BP_AUTH) {
-                    BigParserAPIv2.defaults.headers.common.authId = process.env.BP_AUTH;
-                    authorized = true;
-                    return [2 /*return*/, process.env.BP_AUTH];
-                }
-                else {
-                    throw new Error("BP_AUTH is missing");
-                }
-                return [2 /*return*/];
-            });
-        });
-    }
-    BigParser.login = login;
-    function search(gridId, queryObj, viewId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var gridResponse;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, BigParserAPIv2({
+                    case 0: return [4 /*yield*/, API({
                             method: 'post',
-                            url: (viewId) ? "/grid/" + gridId + "/share/" + viewId + "/search" : "/grid/" + gridId + "/search",
+                            url: gridURL('search', gridId, viewId),
                             data: queryObj
                         })];
-                    case 1:
-                        gridResponse = _a.sent();
-                        return [2 /*return*/, gridResponse];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     }
     BigParser.search = search;
-    function insert(gridId, insertObj, viewId) {
+    function insert(insertObj, gridId, viewId) {
         return __awaiter(this, void 0, void 0, function () {
-            var gridResponse;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, BigParserAPIv2({
+                    case 0: return [4 /*yield*/, API({
                             method: 'post',
-                            url: (viewId) ? "/grid/" + gridId + "/share/" + viewId + "/rows/create" : "/grid/" + gridId + "/rows/create",
+                            url: gridURL('rows/create', gridId, viewId),
                             data: insertObj
                         })];
-                    case 1:
-                        gridResponse = _a.sent();
-                        return [2 /*return*/, gridResponse];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     }
     BigParser.insert = insert;
-    function updateByQuery(gridId, queryUpdateObj, viewId) {
+    function updateByQuery(queryUpdateObj, gridId, viewId) {
         return __awaiter(this, void 0, void 0, function () {
-            var gridResponse;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, BigParserAPIv2({
+                    case 0: return [4 /*yield*/, API({
                             method: 'put',
-                            url: (viewId) ? "/grid/" + gridId + "/share/" + viewId + "/rows/update_by_queryObj" : "/grid/" + gridId + "/rows/update_by_queryObj",
+                            url: gridURL('rows/update_by_queryObj', gridId, viewId),
                             data: queryUpdateObj
                         })];
-                    case 1:
-                        gridResponse = _a.sent();
-                        return [2 /*return*/, gridResponse];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -122,16 +97,13 @@ var BigParser;
     BigParser.updateByQuery = updateByQuery;
     function getHeaders(gridId, viewId) {
         return __awaiter(this, void 0, void 0, function () {
-            var gridResponse;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, BigParserAPIv2({
+                    case 0: return [4 /*yield*/, API({
                             method: 'get',
-                            url: (viewId) ? "/grid/" + gridId + "/share/" + viewId + "/query_metadata" : "/grid/" + gridId + "/query_metadata"
+                            url: gridURL('query_metadata', gridId, viewId)
                         })];
-                    case 1:
-                        gridResponse = _a.sent();
-                        return [2 /*return*/, gridResponse];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
