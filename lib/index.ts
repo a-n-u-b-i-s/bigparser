@@ -10,36 +10,36 @@ const API = axios.create({
   }
 })
 
-function gridURL (gridId: string, viewId: string, action: string): string {
+function gridURL (action: string, gridId: string, viewId?: string): string {
   return (viewId) ? `/grid/${gridId}/share/${viewId}/${action}` : `/grid/${gridId}/${action}`
 }
 
 namespace BigParser {
-  export async function search (gridId: string, viewId: string, queryObj: QueryObject): Promise<APIResponse> {
+  export async function search (queryObj: QueryObject, gridId: string, viewId?: string): Promise<APIResponse> {
     return await API({
       method: 'post',
-      url: gridURL(gridId, viewId, 'search'),
+      url: gridURL('search', gridId, viewId),
       data: queryObj
     })
   }
-  export async function insert (gridId: string, viewId: string, insertObj: InsertObject): Promise<APIResponse> {
+  export async function insert (insertObj: InsertObject, gridId: string, viewId?: string): Promise<APIResponse> {
     return await API({
       method: 'post',
-      url: gridURL(gridId, viewId, 'rows/create'),
+      url: gridURL('rows/create', gridId, viewId),
       data: insertObj
     })
   }
-  export async function updateByQuery (gridId: string, viewId: string, queryUpdateObj: QueryUpdateObject): Promise<APIResponse> {
+  export async function updateByQuery (queryUpdateObj: QueryUpdateObject, gridId: string, viewId?: string): Promise<APIResponse> {
     return await API({
       method: 'put',
-      url: gridURL(gridId, viewId, 'rows/update_by_queryObj'),
+      url: gridURL('rows/update_by_queryObj', gridId, viewId),
       data: queryUpdateObj
     })
   }
-  export async function getHeaders (gridId: string, viewId: string): Promise<APIResponse> {
+  export async function getHeaders (gridId: string, viewId?: string): Promise<APIResponse> {
     return await API({
       method: 'get',
-      url: gridURL(gridId, viewId, 'query_metadata')
+      url: gridURL('query_metadata', gridId, viewId)
     })
   }
 }
