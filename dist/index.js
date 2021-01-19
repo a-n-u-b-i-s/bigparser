@@ -95,6 +95,21 @@ var BigParser;
         });
     }
     BigParser.updateByQuery = updateByQuery;
+    function update(updateObj, gridId, viewId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, API({
+                            method: 'put',
+                            url: gridURL('rows/update_by_rowIds', gridId, viewId),
+                            data: updateObj
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    }
+    BigParser.update = update;
     function getHeaders(gridId, viewId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
