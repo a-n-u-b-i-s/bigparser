@@ -67,6 +67,15 @@ declare interface QueryUpdateObject extends QueryObject {
   }
 }
 
+declare interface UpdateObject {
+  update: {
+    rows: {
+      rowId: string
+      columns: BigParserRow
+    }[]
+  }
+}
+
 const APIURL = `https://${process.env.BP_QA ? 'qa' : 'www'}.bigparser.com/api/v2`
 
 const API = axios.create({
@@ -100,6 +109,13 @@ namespace BigParser {
       method: 'put',
       url: gridURL('rows/update_by_queryObj', gridId, viewId),
       data: queryUpdateObj
+    })
+  }
+  export async function update (updateObj: UpdateObject, gridId: string, viewId?: string): Promise<APIResponse> {
+    return await API({
+      method: 'put',
+      url: gridURL('rows/update_by_rowIds', gridId, viewId),
+      data: updateObj
     })
   }
   export async function getHeaders (gridId: string, viewId?: string): Promise<APIResponse> {
