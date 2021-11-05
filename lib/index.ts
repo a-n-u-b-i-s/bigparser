@@ -81,7 +81,7 @@ const APIURL = `https://${process.env.BP_QA ? 'qa' : 'www'}.bigparser.com/api/v2
 const API = axios.create({
   baseURL: APIURL,
   headers: {
-    authId: process.env.BP_AUTH
+    authid: process.env.BP_AUTH
   }
 })
 

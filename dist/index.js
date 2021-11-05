@@ -42,7 +42,7 @@ var APIURL = "https://" + (process.env.BP_QA ? 'qa' : 'www') + ".bigparser.com/a
 var API = axios_1.default.create({
     baseURL: APIURL,
     headers: {
-        authId: process.env.BP_AUTH
+        authid: process.env.BP_AUTH
     }
 });
 function gridURL(action, gridId, viewId) {
