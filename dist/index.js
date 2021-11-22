@@ -65,6 +65,36 @@ var BigParser;
         });
     }
     BigParser.search = search;
+    function searchCount(queryObj, gridId, viewId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, API({
+                            method: 'post',
+                            url: gridURL('search_count', gridId, viewId),
+                            data: queryObj
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    }
+    BigParser.searchCount = searchCount;
+    function searchDistinct(queryDistinctObj, gridId, viewId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, API({
+                            method: 'post',
+                            url: gridURL('distinct', gridId, viewId),
+                            data: queryDistinctObj
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    }
+    BigParser.searchDistinct = searchDistinct;
     function insert(insertObj, gridId, viewId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -110,6 +140,21 @@ var BigParser;
         });
     }
     BigParser.update = update;
+    function updateColumnDatatype(updateColumnDatatypeObj, gridId, viewId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, API({
+                            method: 'put',
+                            url: gridURL('update_column_datatype', gridId, viewId),
+                            data: updateColumnDatatypeObj
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    }
+    BigParser.updateColumnDatatype = updateColumnDatatype;
     function getHeaders(gridId, viewId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -124,5 +169,34 @@ var BigParser;
         });
     }
     BigParser.getHeaders = getHeaders;
+    function getMultisheetMetadata(gridId, viewId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, API({
+                            method: 'get',
+                            url: gridURL('query_multisheet_metadata', gridId, viewId)
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    }
+    BigParser.getMultisheetMetadata = getMultisheetMetadata;
+    function bulk_crud(obj, gridId, viewId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, API({
+                            method: 'post',
+                            url: gridURL('rows_columns/bulk_crud', gridId, viewId),
+                            data: obj
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    }
+    BigParser.bulk_crud = bulk_crud;
 })(BigParser || (BigParser = {}));
 exports.default = BigParser;

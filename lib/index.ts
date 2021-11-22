@@ -21,16 +21,22 @@ export declare interface APIResponse {
   },
 }
 
-declare type JoinOperator = string
+declare type DataType = 'STRING' | 'NUMBER' | 'DATE' | 'DATE_TIME' | 'BOOLEAN'
+
+declare type JoinOperator = 'OR' | 'AND'
+
+declare type GlobalFilterOperator = 'LIKE' | 'NLIKE' | 'EQ' | 'NEQ'
+
+declare type ColumnFilterOperator = GlobalFilterOperator | 'GT' | 'GTE' | 'LT' | 'LTE' | 'IN'
 
 declare interface GlobalFilter {
-  operator?: string,
+  operator?: GlobalFilterOperator,
   keyword: string
 }
 
 declare interface ColumnFilter {
   column: string,
-  operator?: string,
+  operator?: ColumnFilterOperator,
   keyword: string
 }
 
@@ -67,6 +73,12 @@ declare interface QueryUpdateObject extends QueryObject {
   }
 }
 
+declare interface QueryDistinctObject extends QueryObject {
+  distinct: {
+    columnNames?: Array<string>
+  }
+}
+
 declare interface UpdateObject {
   update: {
     rows: {
@@ -76,12 +88,19 @@ declare interface UpdateObject {
   }
 }
 
+declare interface UpdateColumnDatatypeObject {
+  columns: {
+      columnName: string,
+      dataType: DataType
+  }[]
+}
+
 const APIURL = `https://${process.env.BP_QA ? 'qa' : 'www'}.bigparser.com/api/v2`
 
 const API = axios.create({
   baseURL: APIURL,
   headers: {
-    authid: process.env.BP_AUTH
+    authid: process.env.BP_AUTH!
   }
 })
 
@@ -95,6 +114,20 @@ namespace BigParser {
       method: 'post',
       url: gridURL('search', gridId, viewId),
       data: queryObj
+    })
+  }
+  export async function searchCount (queryObj: QueryObject, gridId: string, viewId?: string): Promise<APIResponse> {
+    return await API({
+      method: 'post',
+      url: gridURL('search_count', gridId, viewId),
+      data: queryObj
+    })
+  }
+  export async function searchDistinct (queryDistinctObj: QueryDistinctObject, gridId: string, viewId?: string): Promise<APIResponse> {
+    return await API({
+      method: 'post',
+      url: gridURL('distinct', gridId, viewId),
+      data: queryDistinctObj
     })
   }
   export async function insert (insertObj: InsertObject, gridId: string, viewId?: string): Promise<APIResponse> {
@@ -118,10 +151,30 @@ namespace BigParser {
       data: updateObj
     })
   }
+  export async function updateColumnDatatype (updateColumnDatatypeObj: UpdateColumnDatatypeObject, gridId: string, viewId?: string): Promise<APIResponse> {
+    return await API({
+      method: 'put',
+      url: gridURL('update_column_datatype', gridId, viewId),
+      data: updateColumnDatatypeObj
+    })
+  }
   export async function getHeaders (gridId: string, viewId?: string): Promise<APIResponse> {
     return await API({
       method: 'get',
       url: gridURL('query_metadata', gridId, viewId)
+    })
+  }
+  export async function getMultisheetMetadata (gridId: string, viewId?: string): Promise<APIResponse> {
+    return await API({
+      method: 'get',
+      url: gridURL('query_multisheet_metadata', gridId, viewId)
+    })
+  }
+  export async function bulk_crud (obj: Object, gridId: string, viewId?: string) {
+    return await API({
+      method: 'post',
+      url: gridURL('rows_columns/bulk_crud', gridId, viewId),
+      data: obj
     })
   }
 }

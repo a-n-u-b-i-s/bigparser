@@ -13,14 +13,17 @@ export declare interface APIResponse {
         [name: string]: any;
     };
 }
-declare type JoinOperator = string;
+declare type DataType = 'STRING' | 'NUMBER' | 'DATE' | 'DATE_TIME' | 'BOOLEAN';
+declare type JoinOperator = 'OR' | 'AND';
+declare type GlobalFilterOperator = 'LIKE' | 'NLIKE' | 'EQ' | 'NEQ';
+declare type ColumnFilterOperator = GlobalFilterOperator | 'GT' | 'GTE' | 'LT' | 'LTE' | 'IN';
 declare interface GlobalFilter {
-    operator?: string;
+    operator?: GlobalFilterOperator;
     keyword: string;
 }
 declare interface ColumnFilter {
     column: string;
-    operator?: string;
+    operator?: ColumnFilterOperator;
     keyword: string;
 }
 declare interface Filter<T> {
@@ -52,6 +55,11 @@ declare interface QueryUpdateObject extends QueryObject {
         columns: BigParserRow;
     };
 }
+declare interface QueryDistinctObject extends QueryObject {
+    distinct: {
+        columnNames?: Array<string>;
+    };
+}
 declare interface UpdateObject {
     update: {
         rows: {
@@ -60,11 +68,22 @@ declare interface UpdateObject {
         }[];
     };
 }
+declare interface UpdateColumnDatatypeObject {
+    columns: {
+        columnName: string;
+        dataType: DataType;
+    }[];
+}
 declare namespace BigParser {
     function search(queryObj: QueryObject, gridId: string, viewId?: string): Promise<APIResponse>;
+    function searchCount(queryObj: QueryObject, gridId: string, viewId?: string): Promise<APIResponse>;
+    function searchDistinct(queryDistinctObj: QueryDistinctObject, gridId: string, viewId?: string): Promise<APIResponse>;
     function insert(insertObj: InsertObject, gridId: string, viewId?: string): Promise<APIResponse>;
     function updateByQuery(queryUpdateObj: QueryUpdateObject, gridId: string, viewId?: string): Promise<APIResponse>;
     function update(updateObj: UpdateObject, gridId: string, viewId?: string): Promise<APIResponse>;
+    function updateColumnDatatype(updateColumnDatatypeObj: UpdateColumnDatatypeObject, gridId: string, viewId?: string): Promise<APIResponse>;
     function getHeaders(gridId: string, viewId?: string): Promise<APIResponse>;
+    function getMultisheetMetadata(gridId: string, viewId?: string): Promise<APIResponse>;
+    function bulk_crud(obj: Object, gridId: string, viewId?: string): Promise<import("axios").AxiosResponse<any, any>>;
 }
 export default BigParser;
