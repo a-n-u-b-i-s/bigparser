@@ -155,6 +155,36 @@ var BigParser;
         });
     }
     BigParser.updateColumnDatatype = updateColumnDatatype;
+    function deleteByRowId(deleteRowIdObj, gridId, viewId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, API({
+                            method: 'delete',
+                            url: gridURL('rows/delete_by_rowIds', gridId, viewId),
+                            data: deleteRowIdObj
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    }
+    BigParser.deleteByRowId = deleteByRowId;
+    function deleteByQuery(deleteQueryObj, gridId, viewId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, API({
+                            method: 'delete',
+                            url: gridURL('rows/delete_by_queryObj', gridId, viewId),
+                            data: deleteQueryObj
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    }
+    BigParser.deleteByQuery = deleteByQuery;
     function getHeaders(gridId, viewId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

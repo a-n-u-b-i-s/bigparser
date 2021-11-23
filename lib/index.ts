@@ -95,6 +95,18 @@ declare interface UpdateColumnDatatypeObject {
   }[]
 }
 
+declare interface DeleteRowIdObject {
+  delete: {
+    rows: {
+      rowId: string
+    }[]
+  }
+}
+
+declare interface DeleteQueryObject {
+  delete: QueryObject
+}
+
 const APIURL = `https://${process.env.BP_QA ? 'qa' : 'www'}.bigparser.com/api/v2`
 
 const API = axios.create({
@@ -156,6 +168,20 @@ namespace BigParser {
       method: 'put',
       url: gridURL('update_column_datatype', gridId, viewId),
       data: updateColumnDatatypeObj
+    })
+  }
+  export async function deleteByRowId (deleteRowIdObj: DeleteRowIdObject, gridId: string, viewId?: string): Promise<APIResponse> {
+    return await API({
+      method: 'delete',
+      url: gridURL('rows/delete_by_rowIds', gridId, viewId),
+      data: deleteRowIdObj
+    })
+  }
+  export async function deleteByQuery (deleteQueryObj: DeleteQueryObject, gridId: string, viewId?: string): Promise<APIResponse> {
+    return await API({
+      method: 'delete',
+      url: gridURL('rows/delete_by_queryObj', gridId, viewId),
+      data: deleteQueryObj
     })
   }
   export async function getHeaders (gridId: string, viewId?: string): Promise<APIResponse> {

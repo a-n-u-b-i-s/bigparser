@@ -74,6 +74,16 @@ declare interface UpdateColumnDatatypeObject {
         dataType: DataType;
     }[];
 }
+declare interface DeleteRowIdObject {
+    delete: {
+        rows: {
+            rowId: string;
+        }[];
+    };
+}
+declare interface DeleteQueryObject {
+    delete: QueryObject;
+}
 declare namespace BigParser {
     function search(queryObj: QueryObject, gridId: string, viewId?: string): Promise<APIResponse>;
     function searchCount(queryObj: QueryObject, gridId: string, viewId?: string): Promise<APIResponse>;
@@ -82,6 +92,8 @@ declare namespace BigParser {
     function updateByQuery(queryUpdateObj: QueryUpdateObject, gridId: string, viewId?: string): Promise<APIResponse>;
     function update(updateObj: UpdateObject, gridId: string, viewId?: string): Promise<APIResponse>;
     function updateColumnDatatype(updateColumnDatatypeObj: UpdateColumnDatatypeObject, gridId: string, viewId?: string): Promise<APIResponse>;
+    function deleteByRowId(deleteRowIdObj: DeleteRowIdObject, gridId: string, viewId?: string): Promise<APIResponse>;
+    function deleteByQuery(deleteQueryObj: DeleteQueryObject, gridId: string, viewId?: string): Promise<APIResponse>;
     function getHeaders(gridId: string, viewId?: string): Promise<APIResponse>;
     function getMultisheetMetadata(gridId: string, viewId?: string): Promise<APIResponse>;
     function bulk_crud(obj: Object, gridId: string, viewId?: string): Promise<import("axios").AxiosResponse<any, any>>;
