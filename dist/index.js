@@ -38,15 +38,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // API Constants
 var axios_1 = require("axios");
-var APIURL = "https://" + (process.env.BP_QA ? 'qa' : 'www') + ".bigparser.com/api/v2";
+var APIURL = "https://".concat(process.env.BP_QA ? 'qa' : 'www', ".bigparser.com/api/v2");
 var API = axios_1.default.create({
     baseURL: APIURL,
     headers: {
-        authId: process.env.BP_AUTH
+        authId: "".concat(process.env.BP_AUTH)
     }
 });
 function gridURL(action, gridId, viewId) {
-    return (viewId) ? "/grid/" + gridId + "/share/" + viewId + "/" + action : "/grid/" + gridId + "/" + action;
+    return (viewId) ? "/grid/".concat(gridId, "/share/").concat(viewId, "/").concat(action) : "/grid/".concat(gridId, "/").concat(action);
 }
 var BigParser;
 (function (BigParser) {
